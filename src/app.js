@@ -11,7 +11,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 const productoRoutes = require('./routes/producto.routes');
+const categoriaRoutes = require('./routes/categoria.routes');
+
 app.use('/api', productoRoutes);
+app.use('/api', categoriaRoutes);
 
 app.set('port', process.env.PORT || 4000);
 

@@ -1,21 +1,26 @@
 CREATE DATABASE IF NOT EXISTS vinoppolisbd;
 USE vinoppolisbd;
+CREATE TABLE categoria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL UNIQUE
+);
 CREATE TABLE producto (
     id INT AUTO_INCREMENT PRIMARY KEY,
  	codigoProducto INT NOT NULL UNIQUE,
   	nombreProducto VARCHAR(255) NOT NULL,
  	precio DOUBLE NOT NULL,
- 	categoria VARCHAR(255),
- 	stockActual INT DEFAULT 0
+ 	idCategoria INT,
+ 	stockActual INT DEFAULT 0,
+    FOREIGN KEY (idCategoria) REFERENCES categoria(id) ON DELETE SET NULL
 );
 CREATE TABLE imagen (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    idProducto INT NOT NULL,
+    entidadId INT NOT NULL,
+    tipoEntidad ENUM('producto', 'categoria') NOT NULL, 
     nombreImagen VARCHAR(255),         
     url TEXT NOT NULL,                   
     tipoArchivo VARCHAR(255),           
     idPublico VARCHAR(255),             
     descripcion TEXT,                                    
-    fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (idProducto) REFERENCES producto(id) ON DELETE CASCADE
+    fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
