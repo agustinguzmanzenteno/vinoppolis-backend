@@ -6,7 +6,6 @@ CREATE TABLE categoria (
 );
 CREATE TABLE producto (
     id INT AUTO_INCREMENT PRIMARY KEY,
- 	codigoProducto INT NOT NULL UNIQUE,
   	nombreProducto VARCHAR(255) NOT NULL,
  	precio DOUBLE NOT NULL,
  	idCategoria INT,

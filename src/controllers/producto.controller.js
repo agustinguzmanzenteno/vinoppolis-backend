@@ -2,15 +2,15 @@ const db = require('../config/db');
 const { cloudinary } = require('../config/cloudinary');
 
 exports.crearProducto = (req, res) => {
-  const { codigoProducto, nombreProducto, precio, idCategoria, stockActual } = req.body;
+  const { nombreProducto, precio, idCategoria, stockActual } = req.body;
 
   if (!req.file) return res.status(400).json({ message: 'Imagen requerida' });
 
   const imagenUrl = req.file.path;
   const publicId = req.file.filename;
 
-  const sql = 'INSERT INTO producto (codigoProducto, nombreProducto, precio, idCategoria, stockActual) VALUES (?, ?, ?, ?, ?)';
-  db.query(sql, [codigoProducto, nombreProducto, parseFloat(precio), idCategoria, parseInt(stockActual)], (err, result) => {
+  const sql = 'INSERT INTO producto (nombreProducto, precio, idCategoria, stockActual) VALUES (?, ?, ?, ?)';
+  db.query(sql, [nombreProducto, parseFloat(precio), idCategoria, parseInt(stockActual)], (err, result) => {
     if (err) return res.status(500).send(err);
 
     const idProducto = result.insertId;
@@ -26,7 +26,6 @@ exports.obtenerProductos = (req, res) => {
   const sql = `
     SELECT 
       p.id,
-      p.codigoProducto,
       p.nombreProducto,
       p.precio,
       p.stockActual,
@@ -47,7 +46,6 @@ exports.obtenerProductoPorId = (req, res) => {
   const sql = `
     SELECT 
       p.id,
-      p.codigoProducto,
       p.nombreProducto,
       p.precio,
       p.stockActual,
@@ -67,7 +65,7 @@ exports.obtenerProductoPorId = (req, res) => {
 };
 
 exports.actualizarProducto = (req, res) => {
-  const { codigoProducto, nombreProducto, precio, idCategoria, stockActual } = req.body;
+  const { nombreProducto, precio, idCategoria, stockActual } = req.body;
 
   db.query('SELECT * FROM imagen WHERE entidadId = ? AND tipoEntidad = "producto"', [req.params.id], (err, resultadoImg) => {
     if (err) return res.status(500).send(err);
@@ -75,8 +73,8 @@ exports.actualizarProducto = (req, res) => {
     const imagenActual = resultadoImg[0];
 
     const actualizarProducto = () => {
-      const sql = 'UPDATE producto SET codigoProducto = ?, nombreProducto = ?, precio = ?, idCategoria = ?, stockActual = ? WHERE id = ?';
-      db.query(sql, [codigoProducto, nombreProducto, parseFloat(precio), idCategoria, parseInt(stockActual), req.params.id], (err2) => {
+      const sql = 'UPDATE producto SET nombreProducto = ?, precio = ?, idCategoria = ?, stockActual = ? WHERE id = ?';
+      db.query(sql, [nombreProducto, parseFloat(precio), idCategoria, parseInt(stockActual), req.params.id], (err2) => {
         if (err2) return res.status(500).send(err2);
         res.json({ message: 'Producto actualizado' });
       });
