@@ -1,2 +1,2 @@
-# vinoppolis-backend
-Proyecto Vinoppolis
+# ventix-backend
+Proyecto Ventix
